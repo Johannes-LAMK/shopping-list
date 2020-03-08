@@ -16,11 +16,12 @@ export class ShoppingListService {
   }
   addItem(item) {
     this.shoppingItems.push(item);
-    localStorage.setItem("kauppalista" + item, item);
+    localStorage.setItem("kauppalista " + item, item);
   }
   removeItem(item) {
-    let index = this.shoppingItems.indexOf(item, 1);
-    this.shoppingItems.splice(index);
-    localStorage.removeItem("kauppalista" + item);
+    console.log(this.shoppingItems);
+    let index = this.shoppingItems.indexOf(item, 0);
+    this.shoppingItems.splice(index, 1);
+    localStorage.removeItem("kauppalista " + item);
   }
 }

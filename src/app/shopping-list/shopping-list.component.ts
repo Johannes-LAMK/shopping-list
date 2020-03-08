@@ -48,7 +48,9 @@ export class ShoppingListComponent implements OnInit {
     }
   }
   remove(item) {
+    console.log(item)
     this.listService.removeItem(item);
-    if (!this.listService.shoppingItems.length) this.hasItems = false;
+    // console.log(this.listService.shoppingItems.length);
+    // if (this.listService.shoppingItems.length == 0) this.hasItems = false;
   }
 }
