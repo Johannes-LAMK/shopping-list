@@ -13,6 +13,7 @@ export interface Tile {
   styleUrls: ["./shopping-list.component.css"]
 })
 export class ShoppingListComponent implements OnInit {
+  titleModel: string;
   shoppingItems: string[];
   hasItems: boolean;
   constructor(private listService: ShoppingListService) {}
@@ -24,14 +25,21 @@ export class ShoppingListComponent implements OnInit {
     else this.hasItems = false;
   }
 
-  add(item) {
-    this.hasItems = true;
-    let newItem = prompt("Anna uusi tuote: ");
-    this.listService.addItem(newItem);
+  add() {
+    if (this.isAlreadyInList(this.titleModel)) {
+      alert("Tuote on jo listassa!");
+      return;
+    } else {
+      this.listService.addItem(this.titleModel);
+      this.titleModel = "";
+      this.hasItems = true;
+    }
   }
   remove(item) {
-    let index = this.shoppingItems.indexOf(item);
-    this.shoppingItems.splice(index, 1);
-    if (!this.shoppingItems.length) this.hasItems = false;
+    this.listService.removeItem(item);
+  }
+  isAlreadyInList(item): boolean {
+    if (this.shoppingItems.includes(item)) return true;
+    else return false;
   }
 }

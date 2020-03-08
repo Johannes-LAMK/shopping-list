@@ -1,3 +1,12 @@
 mat-card {
   text-align: center;
 }
+.mat-form-field-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+#add-btn {
+  height: fit-content;
+  margin: 5px 0 0 15px;
+}
