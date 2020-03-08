@@ -1,10 +1,13 @@
 <div class="container">
     <div class="mat-form-field-container">
         <mat-form-field>
-            <input matInput [(ngModel)]="titleModel" required #reference>
+            <input matInput [(ngModel)]="titleModel" #reference>
+
         </mat-form-field>
         <button id="add-btn" mat-raised-button color="primary" (click)="add(); reference.value=''">Lisää tuote</button>
     </div>
+    <p *ngIf="emptyInput" class="text-center text-danger">Syöte on tyhjä!</p>
+    <p *ngIf="wrongInput" class="text-center text-danger">Tuote on jo listalla!</p>
     <div *ngIf="hasItems else elseBlock">
         <mat-grid-list *ngFor="let item of shoppingItems" cols="2" rowHeight="35px" class="mt-3">
             <mat-card>

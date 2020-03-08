@@ -19,8 +19,8 @@ export class ShoppingListService {
     localStorage.setItem("kauppalista" + item, item);
   }
   removeItem(item) {
-    let index = this.shoppingItems.indexOf(item);
-    this.shoppingItems.splice(index, 1);
+    let index = this.shoppingItems.indexOf(item, 1);
+    this.shoppingItems.splice(index);
     localStorage.removeItem("kauppalista" + item);
   }
 }

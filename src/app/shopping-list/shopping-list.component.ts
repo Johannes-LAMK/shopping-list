@@ -16,30 +16,39 @@ export class ShoppingListComponent implements OnInit {
   titleModel: string;
   shoppingItems: string[];
   hasItems: boolean;
-  constructor(private listService: ShoppingListService) {}
+  emptyInput: boolean;
+  wrongInput: boolean;
+  constructor(private listService: ShoppingListService) {
+    this.shoppingItems = new Array();
+    this.titleModel = "";
+  }
 
   ngOnInit() {
-    this.shoppingItems = new Array();
     this.shoppingItems = this.listService.getItems();
     if (this.shoppingItems.length) this.hasItems = true;
     else this.hasItems = false;
   }
 
   add() {
-    if (this.isAlreadyInList(this.titleModel)) {
-      alert("Tuote on jo listassa!");
+    if (this.titleModel == "") {
+      this.emptyInput = true;
+      console.log("Tyhjäsyöte");
+      return;
+    }
+    if (this.listService.shoppingItems.includes(this.titleModel)) {
+      this.wrongInput = true;
+      console.log("Tuote jo listalla");
       return;
     } else {
       this.listService.addItem(this.titleModel);
       this.titleModel = "";
       this.hasItems = true;
+      this.emptyInput = false;
+      this.wrongInput = false;
     }
   }
   remove(item) {
     this.listService.removeItem(item);
-  }
-  isAlreadyInList(item): boolean {
-    if (this.shoppingItems.includes(item)) return true;
-    else return false;
+    if (!this.listService.shoppingItems.length) this.hasItems = false;
   }
 }
