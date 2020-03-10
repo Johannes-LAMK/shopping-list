@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { ShoppingListService } from "../shopping-list.service";
+import { ShoppingListService } from "./shopping-list.service";
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 export interface Tile {
   color: string;
@@ -13,14 +14,18 @@ export interface Tile {
   styleUrls: ["./shopping-list.component.css"]
 })
 export class ShoppingListComponent implements OnInit {
-  titleModel: string;
+  form = new FormGroup({
+    item : new FormControl('', [
+      Validators.required,
+      Validators.maxLength(30)
+    ])
+  });
   shoppingItems: string[];
   hasItems: boolean;
-  emptyInput: boolean;
-  wrongInput: boolean;
+  dublicateInput: boolean;
   constructor(private listService: ShoppingListService) {
     this.shoppingItems = new Array();
-    this.titleModel = "";
+    this.dublicateInput = false;
   }
 
   ngOnInit() {
@@ -29,28 +34,22 @@ export class ShoppingListComponent implements OnInit {
     else this.hasItems = false;
   }
 
-  add() {
-    if (this.titleModel == "") {
-      this.emptyInput = true;
-      console.log("Tyhjäsyöte");
+  add(item) {
+    if (this.form.get('item').value == "") {
       return;
     }
-    if (this.listService.shoppingItems.includes(this.titleModel)) {
-      this.wrongInput = true;
-      console.log("Tuote jo listalla");
+    if (this.listService.shoppingItems.includes(this.form.get('item').value)) {
+      this.dublicateInput = true;
       return;
     } else {
-      this.listService.addItem(this.titleModel);
-      this.titleModel = "";
+      this.listService.addItem(this.form.get('item').value);
       this.hasItems = true;
-      this.emptyInput = false;
-      this.wrongInput = false;
+      this.dublicateInput = false;
     }
   }
   remove(item) {
     console.log(item)
     this.listService.removeItem(item);
-    // console.log(this.listService.shoppingItems.length);
-    // if (this.listService.shoppingItems.length == 0) this.hasItems = false;
+    if (this.listService.shoppingItems.length == 0) this.hasItems = false;
   }
 }

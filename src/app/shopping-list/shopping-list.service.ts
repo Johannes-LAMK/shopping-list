@@ -4,9 +4,8 @@ import { Injectable } from "@angular/core";
   providedIn: "root"
 })
 export class ShoppingListService {
-  shoppingItems: string[];
+  shoppingItems: string[] = [];
   constructor() {
-    this.shoppingItems = new Array();
     for (let key in localStorage) {
       if (key.includes("kauppalista")) this.addItem(localStorage.getItem(key));
     }
