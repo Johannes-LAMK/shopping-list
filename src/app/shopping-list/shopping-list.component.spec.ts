@@ -2,12 +2,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShoppingListComponent } from './shopping-list.component';
 import { ShoppingListService } from "./shopping-list.service";
-import { from } from 'rxjs';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ShoppingListComponent', () => {
   let component: ShoppingListComponent;
@@ -22,7 +23,10 @@ describe('ShoppingListComponent', () => {
         MatGridListModule,
         FormsModule,
         MatIconModule,
-        MatCardModule
+        MatCardModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        BrowserAnimationsModule
       ]
     })
     .compileComponents();
@@ -39,12 +43,10 @@ describe('ShoppingListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should return all items on shopping list', () => {
-  //   spyOn(service, 'getItems').and.callFake(() => {
-  //     return shoppingList;
-  //   })
-  //   component.ngOnInit();
-
-  //   expect(component.shoppingItems.length).toBe(3);
-  // })
+  it('should instiate shoppinglist with shoppinglist service getItems on ngOnInit', () => {
+    let items = ["kurkku", "tomaatti", "juusto"];
+    service.addItem(items[0]);
+    component.ngOnInit();
+    expect(component.shoppingItems.includes(items[0])).toBeTruthy();
+  })
 });
